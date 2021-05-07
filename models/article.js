@@ -72,4 +72,4 @@ const articleSchema = new mongoose.Schema({
 });
 
 // creates the model and export it
-module.exports = mongoose.model('card', articleSchema);
+module.exports = mongoose.model('article', articleSchema);

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
+const { celebrate, Joi, errors } = require('celebrate');
 
 const auth = require('./middleware/auth');
 const userRoute = require('./routes/users');
@@ -22,7 +23,7 @@ app.use(requestLogger);
 app.use(express.json());
 app.use(helmet());
 
-mongoose.connect('mongodb://localhost:27017/aroundb', {
+mongoose.connect('mongodb://localhost:27017/news-explorer', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

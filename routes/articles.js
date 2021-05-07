@@ -1,6 +1,10 @@
 const express = require('express');
-const { celebrate, Joi } = require('celebrate');
+const Joi = require('joi').extend(require('@joi/date'));
+const { celebrate } = require('celebrate');
 const { getArticles, createArticle, deleteArticle } = require('../controllers/articleController');
+
+
+const router = express.Router();
 
 // returns all articles saved by the user
 router.get('/', getArticles);
@@ -12,11 +16,12 @@ router.post(
   celebrate({
     body: Joi.object().keys({
       keyword: Joi.string().required(),
+      title: Joi.string().required(),
       text: Joi.string().required(),
-      date: Joi.date().utc().format(['YYYY/MM/DD', 'DD-MM-YYYY']),
       source: Joi.string().required(),
       link: Joi.string().uri().required(),
-      image: Joi.string().uri().required()
+      image: Joi.string().uri().required(),
+      date: Joi.date().format(['YYYY/MM/DD', 'DD-MM-YYYY']).utc(),
     })
   }),
   createArticle
@@ -33,4 +38,4 @@ router.delete(
   deleteArticle
 );
 
-const router = express.Router();
+module.exports = router;

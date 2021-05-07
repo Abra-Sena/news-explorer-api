@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 const BadRequestError = require('../middleware/errors/BadRequestError');
 const NotFoundedError = require('../middleware/errors/NotFoundedError');
 const UnAuthorizedError = require('../middleware/errors/UnAuthorizedError');
@@ -36,7 +37,7 @@ function getCurrentUser(req, res, next) {
 }
 
 function createUser(req, res, next) {
-  const { email, password, name, about, avatar } = req.body;
+  const { email, password, name } = req.body;
   //check email andd password validity
   if(!email || !password) {
     throw new BadRequestError('Please enter a valid email or password');
