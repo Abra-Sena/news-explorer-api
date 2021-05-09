@@ -14,5 +14,11 @@ In this project, we worked with two APIs:
 
 ## Infrastructure
   - Git 
+  - Trello
   - Create React App
 
+## Links
+* [Repository with the complete React application which uses this API](https://github.com/Abra-Sena/news-explorer-api)
+* [The frontend is accesible at ](https://abravi-news.students.nomoreparties.site/)
+* [The backend is accessible at ](https://api.abravi-news.students.nomoreparties.site/)
+* Public IP: 20.185.234.92

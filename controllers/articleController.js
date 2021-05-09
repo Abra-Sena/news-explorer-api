@@ -13,6 +13,7 @@ function getArticles(req, res, next) {
 
 function createArticle(req, res, next) {
   const { keyword, title, text, source, link, image } = req.body;
+  console.log("article owner: ", req.user._id);
 
   return Article.create({ keyword, title, text, source, link, image, owner: req.user._id })
     .then((article) => {
@@ -28,9 +29,11 @@ function createArticle(req, res, next) {
 function deleteArticle(req, res, next) {
   return Article.findByIdAndRemove(req.params.articleId)
     .then((article) => {
+      console.log("article owner: ", article.owner);
+      console.log("Request' User id: ", req.user._id);
       if (!article) {
         throw new NotFoundedError('No article with such ID');
-      } else if(!article.owner._id === req.user._id) {
+      } else if(!article.owner === req.user._id) {
         throw new UnAuthorizedError('Forbidden! You are not the owner.');
       } else {
         return res.status(200).send(article);
