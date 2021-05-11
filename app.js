@@ -15,7 +15,7 @@ const { login, createUser } = require('./controllers/userController');
 const NotFoundedError = require('./middleware/errors/NotFoundedError');
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DATABASE_URL = 'mongodb://localhost:27017/news-explorer' } = process.env;
 
 app.use(cors()); //enable all cors requests
 app.options('*', cors()); //enable pre-flightimg
@@ -23,7 +23,7 @@ app.use(requestLogger);
 app.use(express.json());
 app.use(helmet());
 
-mongoose.connect('mongodb://localhost:27017/news-explorer', {
+mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
