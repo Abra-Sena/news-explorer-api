@@ -1,6 +1,7 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
 const { getOneUser, getUsers, getCurrentUser } = require('../controllers/userController');
+
 const router = express.Router();
 
 router.get('/', getUsers);

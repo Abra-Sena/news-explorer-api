@@ -88,7 +88,6 @@ function login(req, res, next) {
     });
 }
 
-
 module.exports = {
   getUsers,
   getOneUser,

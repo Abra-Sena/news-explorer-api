@@ -3,7 +3,6 @@ const Joi = require('joi').extend(require('@joi/date'));
 const { celebrate } = require('celebrate');
 const { getArticles, createArticle, deleteArticle } = require('../controllers/articleController');
 
-
 const router = express.Router();
 
 // returns all articles saved by the user
