@@ -33,7 +33,7 @@ function deleteArticle(req, res, next) {
       console.log("Request' User id: ", req.user._id);
       if (!article) {
         throw new NotFoundedError('No article with such ID');
-      } else if(!article.owner === req.user._id) {
+      } else if(!article.owner.toString() === req.user._id) {
         throw new UnAuthorizedError('Forbidden! You are not the owner.');
       } else {
         return res.status(200).send(article);
