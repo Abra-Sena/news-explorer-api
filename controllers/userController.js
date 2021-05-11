@@ -56,7 +56,11 @@ function createUser(req, res, next) {
             name: user.name
           });
         })
-        .catch(next);
+        .catch((err) => {
+          if (err.name === 'MongoError' && err.code === 11000) {
+            res.status(409).send({ message: 'A user already exist with this email!' });
+          }
+        });
     });
 }
 
