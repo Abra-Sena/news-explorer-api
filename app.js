@@ -6,22 +6,27 @@ const path = require('path');
 const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
 
+const NotFoundedError = require('./errors/NotFoundedError');
+
+const DATABASE_URL = require('./utils/configuration');
+const limiter = require('./utils/limiter');
 const auth = require('./middleware/auth');
-const userRoute = require('./routes/users');
-const articleRoute = require('./routes/articles');
+const error = require('./middleware/error');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const { login, createUser } = require('./controllers/userController');
+const { userRoute, articleRoute } = require('./routes/index');
 
-const NotFoundedError = require('./middleware/errors/NotFoundedError');
+const notFound = require('./utils/constants');
 
 const app = express();
-const { PORT = 3000, DATABASE_URL = 'mongodb://localhost:27017/news-explorer' } = process.env;
+const { PORT = 3000 } = process.env;
 
 app.use(cors()); //enable all cors requests
 app.options('*', cors()); //enable pre-flightimg
 app.use(requestLogger);
 app.use(express.json());
 app.use(helmet());
+app.use(limiter);
 
 mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,
@@ -65,21 +70,12 @@ app.use('/articles', articleRoute);
 
 // errors handling
 app.get('*', (req, res, next) => {
-  next(new NotFoundedError('Requested resource not found'));
+  next(new NotFoundedError(notFound));
 });
 
 app.use(errorLogger); //enabling error logger
 app.use(errors()); //celebrate error handler
-//centralized error handler
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({
-    message: statusCode === 500 ? 'An error occured on the server' : message
-  });
-
-  next();
-});
+app.use(error); //centralized error handler
 
 app.listen(PORT, () => {
   console.log(`Server started\nApp listening at port ${PORT}`);

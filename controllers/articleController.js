@@ -1,7 +1,8 @@
 const Article = require('../models/article');
-const BadRequestError = require('../middleware/errors/BadRequestError');
-const NotFoundedError = require('../middleware/errors/NotFoundedError');
-const UnAuthorizedError = require('../middleware/errors/UnAuthorizedError');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundedError = require('../errors/NotFoundedError');
+const UnAuthorizedError = require('../errors/UnAuthorizedError');
+const { badRequest, noSuchID, notOwner} = require('../utils/constants');
 
 function getArticles(req, res, next) {
   return Article.find({})
@@ -18,7 +19,7 @@ function createArticle(req, res, next) {
   return Article.create({ keyword, title, text, source, link, image, owner: req.user._id })
     .then((article) => {
       if (!article) {
-        throw new BadRequestError('Invalid Data for Card Creation!');
+        throw new BadRequestError(badRequest);
       }
 
       res.status(201).send(article);
@@ -29,12 +30,12 @@ function createArticle(req, res, next) {
 function deleteArticle(req, res, next) {
   return Article.findByIdAndRemove(req.params.articleId)
     .then((article) => {
-      console.log('article owner: ', article.owner);
+      console.log('article owner: ', article.owner.toString());
       console.log("Request' User id: ", req.user._id);
       if (!article) {
-        throw new NotFoundedError('No article with such ID');
+        throw new NotFoundedError(noSuchID);
       } else if(!article.owner.toString() === req.user._id) {
-        throw new UnAuthorizedError('Forbidden! You are not the owner.');
+        throw new UnAuthorizedError(notOwner);
       } else {
         return res.status(200).send(article);
       }
