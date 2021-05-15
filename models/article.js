@@ -1,5 +1,8 @@
+/* eslint-disable prefer-promise-reject-errors */
 const mongoose = require('mongoose');
 const validator = require('validator');
+const NotFoundedError = require('../errors/NotFoundedError');
+const { noSuchID } = require('../utils/constants');
 
 // describes the article schema
 const articleSchema = new mongoose.Schema({
@@ -70,6 +73,18 @@ const articleSchema = new mongoose.Schema({
     select: false // default behavior to unable database to return this field
   }
 });
+
+articleSchema.statics.theOwner = function isTheOwner(id) {
+  return this.findOne({ _id: id }).select('+owner')
+    .then((article) => {
+      if (!article) {
+        return Promise.reject(new NotFoundedError(noSuchID));
+      }
+
+      return article.owner;
+    })
+    .catch((err) => Promise.reject({ statusCode: err.statusCode || 400, message: err.message }));
+};
 
 // creates the model and export it
 module.exports = mongoose.model('article', articleSchema);

@@ -8,13 +8,13 @@ const { celebrate, Joi, errors } = require('celebrate');
 
 const NotFoundedError = require('./errors/NotFoundedError');
 
-const DATABASE_URL = require('./utils/configuration');
-const limiter = require('./utils/limiter');
+const { DATABASE_URL } = require('./utils/configuration');
+const { limiter } = require('./middleware/limiter');
 const auth = require('./middleware/auth');
 const error = require('./middleware/error');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const { login, createUser } = require('./controllers/userController');
-const { userRoute, articleRoute } = require('./routes/index');
+const { userRoute, articleRoute } = require('./routes');
 
 const notFound = require('./utils/constants');
 

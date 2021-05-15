@@ -4,8 +4,8 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundedError = require('../errors/NotFoundedError');
 const UnAuthorizedError = require('../errors/UnAuthorizedError');
-const key = require('../utils/configuration');
-const { badRequest, duplicate, loginError, noSuchID, noSuchUser, notOwner, notFound, wrongEmail } = require('../utils/constants');
+const { privateKey } = require('../utils/configuration');
+const { badRequest, duplicate, loginError, noSuchID, noSuchUser, notFound, wrongEmail } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -79,7 +79,7 @@ function login(req, res, next) {
         {
           _id: user._id
         },
-        NODE_ENV === 'production' ? JWT_SECRET : key,
+        NODE_ENV === 'production' ? JWT_SECRET : privateKey,
         {
           expiresIn: '7d'
         }
