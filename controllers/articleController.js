@@ -34,7 +34,7 @@ function deleteArticle(req, res, next) {
     .then((article) => {
       if (!article) {
         throw new NotFoundedError(noSuchID);
-      } else if (!owner.toString() === req.user._id) {
+      } else if (owner.toString() !== req.user._id) {
         throw new Forbidden(notOwner);
       } else {
         return res.status(200).send(article);
