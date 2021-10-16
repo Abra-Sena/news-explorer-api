@@ -14,11 +14,11 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  text: { //the article text
+  description: { //the article text
     type: String,
     required: true
   },
-  date: { //the article date
+  publishedAt: { //the article date
     type: Date,
     default: Date.now,
   },
@@ -26,7 +26,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  link: { //link to the article
+  url: { //link to the article
     type: String,
     required: true,
     validate: {
@@ -46,7 +46,7 @@ const articleSchema = new mongoose.Schema({
       message: 'You must provide a valide URL for the image',
     }
   },
-  image: { //link to the image for the article
+  urlToImage: { //link to the image for the article
     type: String,
     required: true,
     validate: {

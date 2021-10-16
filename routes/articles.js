@@ -16,10 +16,10 @@ router.post(
     body: Joi.object().keys({
       keyword: Joi.string().required(),
       title: Joi.string().required(),
-      text: Joi.string().required(),
+      description: Joi.string().required(),
       source: Joi.string().required(),
-      link: Joi.string().uri().required(),
-      image: Joi.string().uri().required(),
+      url: Joi.string().uri().required(),
+      urlToImage: Joi.string().uri().required(),
       date: Joi.date().format(['YYYY/MM/DD', 'DD-MM-YYYY']).utc(),
     })
   }),

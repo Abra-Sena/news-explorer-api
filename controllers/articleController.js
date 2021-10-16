@@ -13,10 +13,10 @@ function getArticles(req, res, next) {
 }
 
 function createArticle(req, res, next) {
-  const { keyword, title, text, source, link, image } = req.body;
+  const { keyword, title, description, source, url, urlToImage } = req.body;
   console.log('article owner: ', req.user._id);
 
-  return Article.create({ keyword, title, text, source, link, image, owner: req.user._id })
+  return Article.create({ keyword, title, description, source, url, urlToImage, owner: req.user._id })
     .then((article) => {
       if (!article) {
         throw new BadRequestError(badRequest);
