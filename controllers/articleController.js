@@ -13,10 +13,10 @@ function getArticles(req, res, next) {
 }
 
 function createArticle(req, res, next) {
-  const { keyword, title, description, source, url, urlToImage } = req.body;
+  const { keyword, title, description, publishedAt, source, url, urlToImage } = req.body;
   console.log('article owner: ', req.user._id);
 
-  return Article.create({ keyword, title, description, source, url, urlToImage, owner: req.user._id })
+  return Article.create({ keyword, title, description, publishedAt, source, url, urlToImage, owner: req.user._id })
     .then((article) => {
       if (!article) {
         throw new BadRequestError(badRequest);
@@ -28,17 +28,20 @@ function createArticle(req, res, next) {
 }
 
 function deleteArticle(req, res, next) {
-  const owner = Article.theOwner(req.params.articleId);
-
-  return Article.findByIdAndRemove(req.params.articleId)
+  return Article.findById(req.params.articleId)
+    .select('+owner')
     .then((article) => {
       if (!article) {
         throw new NotFoundedError(noSuchID);
-      } else if (owner.toString() !== req.user._id) {
-        throw new Forbidden(notOwner);
-      } else {
-        return res.status(200).send(article);
       }
+
+      if (String(article.owner) !== req.user._id) {
+        throw new Forbidden(notOwner);
+      }
+
+      return Article.deleteOne(article).then(() => {
+        res.status(200).send({message: 'Article sucessfully removed'});
+      });
     })
     .catch(next);
 }

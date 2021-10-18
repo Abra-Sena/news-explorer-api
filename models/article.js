@@ -20,7 +20,7 @@ const articleSchema = new mongoose.Schema({
   },
   publishedAt: { //the article date
     type: Date,
-    default: Date.now,
+    required: true
   },
   source: { //the article source
     type: String,

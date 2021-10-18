@@ -17,6 +17,7 @@ router.post(
       keyword: Joi.string().required(),
       title: Joi.string().required(),
       description: Joi.string().required(),
+      publishedAt: Joi.string().required(),
       source: Joi.string().required(),
       url: Joi.string().uri().required(),
       urlToImage: Joi.string().uri().required(),
