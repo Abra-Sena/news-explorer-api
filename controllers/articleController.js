@@ -5,7 +5,7 @@ const NotFoundedError = require('../errors/NotFoundedError');
 const { badRequest, noSuchID, notOwner} = require('../utils/constants');
 
 function getArticles(req, res, next) {
-  return Article.find({})
+  return Article.find({ owner: req.user._id })
     .then((articles) => {
       res.status(200).send(articles);
     })
