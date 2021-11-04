@@ -19,6 +19,6 @@ In this project, we worked with two APIs:
 
 ## Links
 * [Repository with the complete React application which uses this API](https://github.com/Abra-Sena/news-explorer-api)
-* [The frontend is accesible at ](https://abra-news.students.nomoreparties.site/)
-* [The backend is accessible at ](https://api.abra-news.students.nomoreparties.site/)
-* Public IP: 34.67.142.67
+* [The frontend is accesible at ](https://abra-newsapp.students.nomoreparties.site/)
+* [The backend is accessible at ](https://api.abra-newsapp.students.nomoreparties.site/)
+* Public IP: 35.188.218.140
